@@ -1,7 +1,9 @@
 from django import forms
 from .models import  Pregunta, Respuesta, preguntasRespondidas
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import get_user_model
 
-
+User = get_user_model()
 
 class cantidadCorrectas(forms.BaseInlineFormSet):
     def clean(self):
@@ -21,3 +23,20 @@ class cantidadCorrectas(forms.BaseInlineFormSet):
         
         except AssertionError:
             raise forms.ValidationError('Seleccionar una sola respuesta correcta!')
+
+
+
+class RegistroFormulario(UserCreationForm):
+    email = forms.EmailField(required=True)
+    nickname = forms.CharField(required=True)
+
+    class Meta:
+        model = User
+        fields = [
+
+            'nickname',
+            'email',
+            'password1',
+            'password2',
+
+        ]
